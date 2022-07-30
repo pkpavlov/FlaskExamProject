@@ -7,10 +7,14 @@ from managers.store_user import StoreUserManager
 from managers.task import TaskManager
 from schemas.requests.auth import RegisterEmployeeSchemaRequest, RegisterShopUserSchemaRequest, \
     RegisterItemSchemaRequest, RegisterTaskSchemaRequest, LoginSchemaRequest
-from utils.decorators import validate_schema
+from utils.decorators import validate_schema, permission_required
+from managers.auth import auth
+from models import UserRole
 
 
 class RegisterEmployeeResource(Resource):
+    @auth.login_required
+    @permission_required(UserRole.admin)
     @validate_schema(RegisterEmployeeSchemaRequest)
     def post(self):
         data = request.get_json()
@@ -20,6 +24,7 @@ class RegisterEmployeeResource(Resource):
 
 
 class RegisterStoreUserResource(Resource):
+
     @validate_schema(RegisterShopUserSchemaRequest)
     def post(self):
         data = request.get_json()
@@ -29,6 +34,8 @@ class RegisterStoreUserResource(Resource):
 
 
 class RegisterTaskResource(Resource):
+    @auth.login_required
+    @permission_required(UserRole.admin)
     @validate_schema(RegisterTaskSchemaRequest)
     def post(self):
         data = request.get_json()
@@ -37,12 +44,13 @@ class RegisterTaskResource(Resource):
 
 
 class RegisterItemResource(Resource):
+    @auth.login_required
+    @permission_required(UserRole.warehouseman, UserRole.admin)
     @validate_schema(RegisterItemSchemaRequest)
     def post(self):
         data = request.get_json()
         item = StoreManager.register(data)
         return f"added item {item.item_name} with quantity {item.quantity}"
-
 
 class LoginEmployeeResource(Resource):
 
