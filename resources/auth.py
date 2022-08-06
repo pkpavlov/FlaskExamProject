@@ -15,7 +15,7 @@ from schemas.requests.auth import (
 from schemas.responses.task import TaskSchemaResponse
 from utils.decorators import validate_schema, permission_required
 from managers.auth import auth
-from models import UserRole, TaskModel
+from models import UserRole, TaskModel, StoreModel
 
 
 def _validate_task_id(task_id):

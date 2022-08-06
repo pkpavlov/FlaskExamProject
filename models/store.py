@@ -13,4 +13,4 @@ class StoreModel(db.Model):
     dealer_price = db.Column(db.Float, nullable=False)
 
 
-#  delivery_price + (delivery_price * 0.3)
+

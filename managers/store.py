@@ -1,6 +1,19 @@
+
 from models import StoreModel
 
 from db import db
+
+
+def _check_item(item_name,item_serial):
+    item_name = StoreModel.query.filter_by(item_name=item_name).first()
+    item_serial = StoreModel.query.filter_by(item_name=item_serial).first()
+    if item_name and item_serial:
+        return True
+    return False
+def _get_quantity_item(i):
+    quantity = StoreModel.query.filter_by(item_name=i).first()
+
+    return quantity.quantity
 
 
 class StoreManager:
@@ -11,8 +24,16 @@ class StoreManager:
         item.dealer_price = item.delivery_price + (item.delivery_price * 0.3)
         item.sell_price = item.delivery_price + (item.delivery_price * 0.8)
 
-        # check for item name and serial number if exists add quantity
 
-        db.session.add(item)
-        db.session.commit()
+        # check for item name and serial_number  if exists add quantity
+        if _check_item(item.item_name, item.serial_number):
+            q = _get_quantity_item(item.item_name)
+            StoreModel.query.filter_by(item_name=item.item_name).update({"quantity": q+item.quantity})
+            db.session.commit()
+        else:
+
+            db.session.add(item)
+            db.session.commit()
         return item
+
+
