@@ -36,4 +36,9 @@ class StoreManager:
             db.session.commit()
         return item
 
+    def delete(self, item_id):
+        item = StoreModel.query.filter_by(id=item_id["id"]).first()
+        db.session.delete(item)
+        db.session.commit()
+
 

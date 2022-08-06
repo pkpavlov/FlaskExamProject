@@ -10,7 +10,7 @@ from schemas.requests.auth import (
     RegisterShopUserSchemaRequest,
     RegisterItemSchemaRequest,
     RegisterTaskSchemaRequest,
-    LoginSchemaRequest, UpdateTaskSchemaRequest
+    LoginSchemaRequest, UpdateTaskSchemaRequest, DeleteItemSchemaRequest, DeleteTaskSchemaRequest
 )
 from schemas.responses.task import TaskSchemaResponse
 from utils.decorators import validate_schema, permission_required
@@ -18,8 +18,8 @@ from managers.auth import auth
 from models import UserRole, TaskModel, StoreModel
 
 
-def _validate_task_id(task_id):
-    task = TaskModel.query.filter_by(id=task_id).first()
+def _validate_id(id, model):
+    task = model.query.filter_by(id=id).first()
     if not task:
         return False
     return True
@@ -70,20 +70,21 @@ class TaskStatusEditResource(Resource):
     @validate_schema(UpdateTaskSchemaRequest)
     def put(self, id):
         data = request.get_json()
-        if _validate_task_id(data["id"]):
+        if _validate_id(data["id"], TaskModel()):
             task = TaskManager.task_update(data)
             return 204
         return 404
 
-class TaskSDeleteResource(Resource):
+class TaskDeleteResource(Resource):
 
 
 
     @auth.login_required
     @permission_required(UserRole.admin)
+    @validate_schema(DeleteTaskSchemaRequest)
     def delete(self, id):
         data = request.get_json()
-        if _validate_task_id(data["id"]):
+        if _validate_id(data["id"], TaskModel()):
             task = TaskManager.delete(data)
             return 204
         return 404
@@ -98,6 +99,19 @@ class ItemsResource(Resource):
         data = request.get_json()
         item = StoreManager.register(data)
         return f"added item {item.item_name} with quantity {item.quantity}"
+
+class DeleteItemsResource(Resource):
+    @auth.login_required
+    @permission_required(UserRole.warehouseman, UserRole.admin)
+    @validate_schema(DeleteItemSchemaRequest)
+    def delete(self):
+        data = request.get_json()
+        if _validate_id(data["id"], StoreModel()):
+            task = StoreManager.delete(data)
+            return 204
+        return 404
+
+
 
 
 class LoginEmployeeResource(Resource):

@@ -4,7 +4,7 @@ from resources.auth import (
     TasksResource,
     ItemsResource,
     LoginEmployeeResource,
-    LoginStoreUserResource, TaskStatusEditResource, TaskSDeleteResource,
+    LoginStoreUserResource, TaskStatusEditResource, TaskDeleteResource, DeleteItemsResource,
 )
 
 routes = (
@@ -15,5 +15,7 @@ routes = (
     (LoginEmployeeResource, "/loginEmployee/"),
     (LoginStoreUserResource, "/login/"),
     (TaskStatusEditResource, "/task/<int:id>/"),
-    (TaskSDeleteResource, "/task/<int:id>/")
+    (TaskDeleteResource, "/task/<int:id>/"),
+    (DeleteItemsResource, "/item/<int:id>/"),
+
 )

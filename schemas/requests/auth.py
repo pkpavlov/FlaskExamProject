@@ -32,6 +32,10 @@ class RegisterItemSchemaRequest(Schema):
     dealer_price = fields.Float(required=False)
 
 
+class DeleteItemSchemaRequest(Schema):
+    id = fields.Integer(required=True)
+
+
 class RegisterTaskSchemaRequest(Schema):
     task_name = fields.String(required=True, validate=validate.Length(min=5, max=20))
     description = fields.String(required=True, validate=validate.Length(min=5, max=255))
@@ -52,6 +56,9 @@ class UpdateTaskSchemaRequest(Schema):
         required=True, validate=validate.Length(min=5, max=255)
     )
     state = EnumField(TaskState)
+
+class DeleteTaskSchemaRequest(Schema):
+    id = fields.Integer(required=True)
 
 
 class LoginSchemaRequest(BaseRequestSchema):
