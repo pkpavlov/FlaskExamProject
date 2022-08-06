@@ -9,11 +9,8 @@ class StoreModel(db.Model):
     serial_number = db.Column(db.String(30), nullable=False)
     quantity = db.Column(db.Integer, default=0, nullable=False)
     delivery_price = db.Column(db.Integer, nullable=False)
-    sell_price = db.Column(
-        db.Float, nullable=False
-    )
-    dealer_price = db.Column(
-        db.Float, nullable=False
-    )
+    sell_price = db.Column(db.Float, nullable=False)
+    dealer_price = db.Column(db.Float, nullable=False)
+
 
 #  delivery_price + (delivery_price * 0.3)

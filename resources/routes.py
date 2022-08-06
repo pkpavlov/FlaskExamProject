@@ -1,11 +1,18 @@
-from resources.auth import RegisterEmployeeResource, RegisterStoreUserResource, RegisterTaskResource, \
-    RegisterItemResource, LoginEmployeeResource, LoginStoreUserResource
+from resources.auth import (
+    RegisterEmployeeResource,
+    RegisterStoreUserResource,
+    TasksResource,
+    ItemsResource,
+    LoginEmployeeResource,
+    LoginStoreUserResource, TaskStatusEditResource,
+)
 
 routes = (
     (RegisterEmployeeResource, "/register-employees/"),
     (RegisterStoreUserResource, "/register/"),
-    (RegisterTaskResource, "/register-task/"),
-    (RegisterItemResource, "/register-item/"),
+    (TasksResource, "/tasks/"),
+    (ItemsResource, "/items/"),
     (LoginEmployeeResource, "/loginEmployee/"),
-    (LoginStoreUserResource, "/login/")
+    (LoginStoreUserResource, "/login/"),
+    (TaskStatusEditResource, "/task/<int:id>/")
 )

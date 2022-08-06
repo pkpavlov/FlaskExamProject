@@ -4,8 +4,8 @@ from models.user import EmployeesModel
 from db import db
 from managers.auth import AuthManager
 
-class EmployeeManager:
 
+class EmployeeManager:
     @staticmethod
     def register(employee_data):
         employee_data["password"] = generate_password_hash(employee_data["password"])

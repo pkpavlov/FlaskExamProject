@@ -28,4 +28,5 @@ def permission_required(*role):
             raise Forbidden("Permission denied!")
 
         return wrapper
+
     return decorated_function

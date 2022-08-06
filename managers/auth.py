@@ -33,8 +33,3 @@ auth = HTTPTokenAuth()
 def verify(token):
     user_id = AuthManager.decode_token(token)
     return EmployeesModel.query.filter_by(id=user_id).first()
-
-
-
-
-

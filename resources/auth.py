@@ -5,11 +5,17 @@ from managers.employee import EmployeeManager
 from managers.store import StoreManager
 from managers.store_user import StoreUserManager
 from managers.task import TaskManager
-from schemas.requests.auth import RegisterEmployeeSchemaRequest, RegisterShopUserSchemaRequest, \
-    RegisterItemSchemaRequest, RegisterTaskSchemaRequest, LoginSchemaRequest
+from schemas.requests.auth import (
+    RegisterEmployeeSchemaRequest,
+    RegisterShopUserSchemaRequest,
+    RegisterItemSchemaRequest,
+    RegisterTaskSchemaRequest,
+    LoginSchemaRequest, UpdateTaskSchemaRequest
+)
+from schemas.responses.task import TaskSchemaResponse
 from utils.decorators import validate_schema, permission_required
 from managers.auth import auth
-from models import UserRole
+from models import UserRole, TaskModel
 
 
 class RegisterEmployeeResource(Resource):
@@ -24,7 +30,6 @@ class RegisterEmployeeResource(Resource):
 
 
 class RegisterStoreUserResource(Resource):
-
     @validate_schema(RegisterShopUserSchemaRequest)
     def post(self):
         data = request.get_json()
@@ -33,7 +38,15 @@ class RegisterStoreUserResource(Resource):
         return {"token": token}, 201
 
 
-class RegisterTaskResource(Resource):
+class TasksResource(Resource):
+
+    @auth.login_required
+    def get(self):
+        user = auth.current_user()
+        tasks = TaskManager.get_task(user)
+        return TaskSchemaResponse().dump(tasks, many=True)
+
+
     @auth.login_required
     @permission_required(UserRole.admin)
     @validate_schema(RegisterTaskSchemaRequest)
@@ -42,8 +55,26 @@ class RegisterTaskResource(Resource):
         task = TaskManager.register(data)
         return f"Task {task.task_name} number {task.id} assigned to {task.employee.first_name} {task.employee.last_name}"
 
+class TaskStatusEditResource(Resource):
 
-class RegisterItemResource(Resource):
+    def _validate_task_id(self, task_id):
+        task = TaskModel.query.filter_by(id=task_id).first()
+        if not task:
+            return False
+        return True
+
+    @auth.login_required
+    @permission_required(UserRole.admin, UserRole.employee)
+    @validate_schema(UpdateTaskSchemaRequest)
+    def put(self, id):
+        data = request.get_json()
+        if self._validate_task_id(data["id"]):
+            task = TaskManager.task_done(data)
+            return 204
+        return 404
+
+
+class ItemsResource(Resource):
     @auth.login_required
     @permission_required(UserRole.warehouseman, UserRole.admin)
     @validate_schema(RegisterItemSchemaRequest)
@@ -52,8 +83,9 @@ class RegisterItemResource(Resource):
         item = StoreManager.register(data)
         return f"added item {item.item_name} with quantity {item.quantity}"
 
-class LoginEmployeeResource(Resource):
 
+class LoginEmployeeResource(Resource):
+    @validate_schema(LoginSchemaRequest)
     def post(self):
         data = request.get_json()
         token = EmployeeManager.login(data)
@@ -62,7 +94,7 @@ class LoginEmployeeResource(Resource):
 
 
 class LoginStoreUserResource(Resource):
-
+    @validate_schema(LoginSchemaRequest)
     def post(self):
         data = request.get_json()
         token = StoreUserManager.login(data)

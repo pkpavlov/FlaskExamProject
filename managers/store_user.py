@@ -6,10 +6,11 @@ from managers.auth import AuthManager
 
 
 class StoreUserManager:
-
     @staticmethod
     def register(store_user_data):
-        store_user_data["password"] = generate_password_hash(store_user_data["password"])
+        store_user_data["password"] = generate_password_hash(
+            store_user_data["password"]
+        )
         user = StoreUsersModel(**store_user_data)
         db.session.add(user)
         db.session.commit()

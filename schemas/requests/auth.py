@@ -1,6 +1,10 @@
 from marshmallow import Schema, fields, validate
+from marshmallow_enum import EnumField
 
+from models import TaskState
 from schemas.requests.base import BaseRequestUserSchema, BaseRequestSchema
+
+
 
 
 class RegisterEmployeeSchemaRequest(BaseRequestUserSchema):
@@ -18,7 +22,9 @@ class RegisterShopUserSchemaRequest(BaseRequestUserSchema):
 
 class RegisterItemSchemaRequest(Schema):
     item_name = fields.String(required=True, validate=validate.Length(min=1, max=20))
-    serial_number = fields.String(required=True, validate=validate.Length(min=5, max=20))
+    serial_number = fields.String(
+        required=True, validate=validate.Length(min=5, max=20)
+    )
     quantity = fields.Integer(required=False)
     delivery_price = fields.Float(required=True)
     sell_price = fields.Float(required=False)
@@ -29,12 +35,25 @@ class RegisterTaskSchemaRequest(Schema):
     task_name = fields.String(required=True, validate=validate.Length(min=5, max=20))
     description = fields.String(required=True, validate=validate.Length(min=5, max=255))
     used_parts = fields.String(required=False)
-    employ_comments = fields.String(required=True, validate=validate.Length(min=5, max=255))
+    employee_comments = fields.String(
+        required=False, validate=validate.Length(min=5, max=255)
+    )
     state = fields.String(required=False)
     employee_id = fields.Integer(required=True)
+
+
+class UpdateTaskSchemaRequest(Schema):
+    id = fields.Integer(required=True)
+    used_parts = fields.String(required=True)
+    employee_comments = fields.String(
+        required=True, validate=validate.Length(min=5, max=255)
+    )
+    state = EnumField(TaskState)
 
 
 class LoginSchemaRequest(BaseRequestSchema):
     email = fields.Email(required=True)
     password = fields.String(required=True, validate=validate.Length(min=8, max=20))
+
+
 
