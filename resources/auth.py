@@ -10,7 +10,7 @@ from schemas.requests.auth import (
     RegisterShopUserSchemaRequest,
     RegisterItemSchemaRequest,
     RegisterTaskSchemaRequest,
-    LoginSchemaRequest, UpdateTaskSchemaRequest, DeleteItemSchemaRequest, DeleteTaskSchemaRequest
+    LoginSchemaRequest, UpdateTaskSchemaRequest, DeleteItemSchemaRequest, DeleteTaskSchemaRequest, BuyItemsSchemaRequest
 )
 from schemas.responses.task import TaskSchemaResponse
 from utils.decorators import validate_schema, permission_required
@@ -104,7 +104,7 @@ class DeleteItemsResource(Resource):
     @auth.login_required
     @permission_required(UserRole.warehouseman, UserRole.admin)
     @validate_schema(DeleteItemSchemaRequest)
-    def delete(self):
+    def delete(self, id):
         data = request.get_json()
         if _validate_id(data["id"], StoreModel()):
             task = StoreManager.delete(data)
@@ -130,3 +130,11 @@ class LoginStoreUserResource(Resource):
         token = StoreUserManager.login(data)
 
         return {"token": token}, 200
+
+class BuyStoreItemResource(Resource):
+    @validate_schema(BuyItemsSchemaRequest)
+    def post(self):
+        data = request.get_json()
+        item = StoreManager.buy(data["id"], data["quantity"])
+        return item
+

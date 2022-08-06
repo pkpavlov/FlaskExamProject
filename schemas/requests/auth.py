@@ -57,6 +57,7 @@ class UpdateTaskSchemaRequest(Schema):
     )
     state = EnumField(TaskState)
 
+
 class DeleteTaskSchemaRequest(Schema):
     id = fields.Integer(required=True)
 
@@ -64,6 +65,11 @@ class DeleteTaskSchemaRequest(Schema):
 class LoginSchemaRequest(BaseRequestSchema):
     email = fields.Email(required=True)
     password = fields.String(required=True, validate=validate.Length(min=8, max=20))
+
+
+class BuyItemsSchemaRequest(Schema):
+    id = fields.Integer(required=True)
+    quantity = fields.Integer(required=True)
 
 
 
