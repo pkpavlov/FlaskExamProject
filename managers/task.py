@@ -25,12 +25,19 @@ class TaskManager:
 #change task status
 
     @staticmethod
-    def task_done(task_data):
+    def task_update(task_data):
 
         TaskModel.query.filter_by(id=task_data["id"]).update({"state": TaskState.done,
                                                               "used_parts": task_data["used_parts"],
                                                               "employee_comments":task_data["employee_comments"]})
         db.session.commit()
+
+    @staticmethod
+    def delete(task_id):
+        task = TaskModel.query.filter_by(id=task_id["id"]).first()
+        db.session.delete(task)
+        db.session.commit()
+
 
 
 

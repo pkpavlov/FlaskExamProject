@@ -18,6 +18,13 @@ from managers.auth import auth
 from models import UserRole, TaskModel
 
 
+def _validate_task_id(task_id):
+    task = TaskModel.query.filter_by(id=task_id).first()
+    if not task:
+        return False
+    return True
+
+
 class RegisterEmployeeResource(Resource):
     @auth.login_required
     @permission_required(UserRole.admin)
@@ -57,21 +64,30 @@ class TasksResource(Resource):
 
 class TaskStatusEditResource(Resource):
 
-    def _validate_task_id(self, task_id):
-        task = TaskModel.query.filter_by(id=task_id).first()
-        if not task:
-            return False
-        return True
 
     @auth.login_required
     @permission_required(UserRole.admin, UserRole.employee)
     @validate_schema(UpdateTaskSchemaRequest)
     def put(self, id):
         data = request.get_json()
-        if self._validate_task_id(data["id"]):
-            task = TaskManager.task_done(data)
+        if _validate_task_id(data["id"]):
+            task = TaskManager.task_update(data)
             return 204
         return 404
+
+class TaskSDeleteResource(Resource):
+
+
+
+    @auth.login_required
+    @permission_required(UserRole.admin)
+    def delete(self, id):
+        data = request.get_json()
+        if _validate_task_id(data["id"]):
+            task = TaskManager.delete(data)
+            return 204
+        return 404
+
 
 
 class ItemsResource(Resource):

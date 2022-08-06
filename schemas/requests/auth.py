@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields, validate
 from marshmallow_enum import EnumField
+from sqlalchemy import func
 
 from models import TaskState
 from schemas.requests.base import BaseRequestUserSchema, BaseRequestSchema
@@ -40,6 +41,8 @@ class RegisterTaskSchemaRequest(Schema):
     )
     state = fields.String(required=False)
     employee_id = fields.Integer(required=True)
+    create_on = fields.DateTime()
+    updated_on = fields.DateTime()
 
 
 class UpdateTaskSchemaRequest(Schema):
