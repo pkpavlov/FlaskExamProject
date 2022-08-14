@@ -12,10 +12,7 @@ from services.wise import WiseService
 wise = WiseService()
 
 
-
-
 class EmployeeManager:
-
     @staticmethod
     def get_employee_info(employee_id):
         employee = EmployeesModel.query.filter_by(id=employee_id).first()
@@ -44,13 +41,15 @@ class EmployeeManager:
         raise BadRequest("Wrong password!")
 
     @staticmethod
-    def issue_transaction(amount,full_name, iban, employee_id):
+    def issue_transaction(amount, full_name, iban, employee_id):
         quote_id = wise.create_quotes("EUR", "EUR", amount)
         recipient_id = wise.create_recipient(full_name, iban)
         customer_transaction_id = str(uuid.uuid4())
-        transfer_id = wise.create_transfer(recipient_id, quote_id, customer_transaction_id)
+        transfer_id = wise.create_transfer(
+            recipient_id, quote_id, customer_transaction_id
+        )
         data = {
-                    "quote_id": quote_id,
+            "quote_id": quote_id,
             "recipient_id": recipient_id,
             "transfer_di": transfer_id,
             "target_account_id": customer_transaction_id,
@@ -63,5 +62,7 @@ class EmployeeManager:
 
     @staticmethod
     def salary_update(employee_data):
-        EmployeesModel.query.filter_by(id=employee_data["id"]).update({"salary": employee_data["salary"]})
+        EmployeesModel.query.filter_by(id=employee_data["id"]).update(
+            {"salary": employee_data["salary"]}
+        )
         db.session.commit()

@@ -6,8 +6,6 @@ from models import TaskState
 from schemas.requests.base import BaseRequestUserSchema, BaseRequestSchema
 
 
-
-
 class RegisterEmployeeSchemaRequest(BaseRequestUserSchema):
 
     iban = fields.String(required=False, validate=validate.Length(min=15, max=32))
@@ -70,6 +68,3 @@ class LoginSchemaRequest(BaseRequestSchema):
 class BuyItemsSchemaRequest(Schema):
     id = fields.Integer(required=True)
     quantity = fields.Integer(required=True)
-
-
-

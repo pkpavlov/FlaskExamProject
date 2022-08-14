@@ -1,15 +1,15 @@
-
 from models import StoreModel
 
 from db import db
 
 
-def _check_item(item_n,item_s):
+def _check_item(item_n, item_s):
     item_name = StoreModel.query.filter_by(item_name=item_n).first()
     item_serial = StoreModel.query.filter_by(serial_number=item_s).first()
     if item_name and item_serial:
         return True
     return False
+
 
 def _get_quantity_item(i):
     quantity = StoreModel.query.filter_by(item_name=i).first()
@@ -25,11 +25,12 @@ class StoreManager:
         item.dealer_price = item.delivery_price + (item.delivery_price * 0.3)
         item.sell_price = item.delivery_price + (item.delivery_price * 0.8)
 
-
         # check for item name and serial_number  if exists add quantity
         if _check_item(item.item_name, item.serial_number):
             q = _get_quantity_item(item.item_name)
-            StoreModel.query.filter_by(item_name=item.item_name, serial_number=item.serial_number).update({"quantity": q+item.quantity})
+            StoreModel.query.filter_by(
+                item_name=item.item_name, serial_number=item.serial_number
+            ).update({"quantity": q + item.quantity})
             db.session.commit()
         else:
 
@@ -53,6 +54,3 @@ class StoreManager:
             return f"u bought {quantity} {item.item_name}"
         else:
             return "Not enouth quantity"
-
-
-

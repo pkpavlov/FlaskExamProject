@@ -11,6 +11,3 @@ class StoreModel(db.Model):
     delivery_price = db.Column(db.Integer, nullable=False)
     sell_price = db.Column(db.Float, nullable=False)
     dealer_price = db.Column(db.Float, nullable=False)
-
-
-

@@ -1,4 +1,4 @@
-from marshmallow import Schema,fields
+from marshmallow import Schema, fields
 
 from marshmallow_enum import EnumField
 
@@ -15,4 +15,3 @@ class TaskSchemaResponse(Schema):
     used_parts = fields.String(required=True)
     employee_comments = fields.String(required=True)
     state = EnumField(TaskState, by_value=True)
-

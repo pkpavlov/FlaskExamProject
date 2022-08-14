@@ -1,6 +1,7 @@
 from decouple import config
 import requests
-import  uuid
+import uuid
+
 
 class WiseService:
     def __init__(self):
@@ -55,15 +56,15 @@ class WiseService:
         data = {
             "targetAccount": recipient_account_id,
             "quoteUuid": quote_id,
-            "customerTransactionId": customer_transaction_id
+            "customerTransactionId": customer_transaction_id,
         }
         response = requests.post(url, json=data, headers=self.headers)
         transfer_id = response.json()["id"]
         return transfer_id
 
-    def fund_transfer(self, transfer_id ):
+    def fund_transfer(self, transfer_id):
         url = f"{self.main_url}/v3/profiles/{self.profile_id}/transfers/{transfer_id}/payments"
-        data ={"type": "BALANCE"}
+        data = {"type": "BALANCE"}
         response = requests.post(url, json=data, headers=self.headers)
         return response
 
@@ -71,6 +72,7 @@ class WiseService:
         url = f"{self.main_url}/v1/transfers/{transfer_id}/cancel"
         resp = requests.put(url, headers=self.headers)
         return resp.json()
+
 
 if __name__ == "__main__":
     wise = WiseService()

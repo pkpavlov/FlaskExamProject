@@ -10,7 +10,11 @@ from schemas.requests.auth import (
     RegisterShopUserSchemaRequest,
     RegisterItemSchemaRequest,
     RegisterTaskSchemaRequest,
-    LoginSchemaRequest, UpdateTaskSchemaRequest, DeleteItemSchemaRequest, DeleteTaskSchemaRequest, BuyItemsSchemaRequest
+    LoginSchemaRequest,
+    UpdateTaskSchemaRequest,
+    DeleteItemSchemaRequest,
+    DeleteTaskSchemaRequest,
+    BuyItemsSchemaRequest,
 )
 from schemas.responses.task import TaskSchemaResponse
 from utils.decorators import validate_schema, permission_required
@@ -32,7 +36,7 @@ class RegisterEmployeeResource(Resource):
     def post(self):
         data = request.get_json()
         token = EmployeeManager.register(data)
-
+        a = 5
         return {"token": token}, 201
 
 
@@ -46,13 +50,11 @@ class RegisterStoreUserResource(Resource):
 
 
 class TasksResource(Resource):
-
     @auth.login_required
     def get(self):
         user = auth.current_user()
         tasks = TaskManager.get_task(user)
         return TaskSchemaResponse().dump(tasks, many=True)
-
 
     @auth.login_required
     @permission_required(UserRole.admin)
@@ -62,9 +64,8 @@ class TasksResource(Resource):
         task = TaskManager.register(data)
         return f"Task {task.task_name} number {task.id} assigned to {task.employee.first_name} {task.employee.last_name}"
 
+
 class TaskStatusEditResource(Resource):
-
-
     @auth.login_required
     @permission_required(UserRole.admin, UserRole.employee)
     @validate_schema(UpdateTaskSchemaRequest)
@@ -75,10 +76,8 @@ class TaskStatusEditResource(Resource):
             return 204
         return 404
 
+
 class TaskDeleteResource(Resource):
-
-
-
     @auth.login_required
     @permission_required(UserRole.admin)
     @validate_schema(DeleteTaskSchemaRequest)
@@ -90,7 +89,6 @@ class TaskDeleteResource(Resource):
         return 404
 
 
-
 class ItemsResource(Resource):
     @auth.login_required
     @permission_required(UserRole.warehouseman, UserRole.admin)
@@ -99,6 +97,7 @@ class ItemsResource(Resource):
         data = request.get_json()
         item = StoreManager.register(data)
         return f"added item {item.item_name} with quantity {item.quantity}"
+
 
 class DeleteItemsResource(Resource):
     @auth.login_required
@@ -110,8 +109,6 @@ class DeleteItemsResource(Resource):
             task = StoreManager.delete(data)
             return 204
         return 404
-
-
 
 
 class LoginEmployeeResource(Resource):
@@ -131,6 +128,7 @@ class LoginStoreUserResource(Resource):
 
         return {"token": token}, 200
 
+
 class BuyStoreItemResource(Resource):
     @validate_schema(BuyItemsSchemaRequest)
     def post(self):
@@ -138,14 +136,15 @@ class BuyStoreItemResource(Resource):
         item = StoreManager.buy(data["id"], data["quantity"])
         return item
 
+
 class SalaryPaymentResource(Resource):
     @auth.login_required
     @permission_required(UserRole.accountant)
-    def post(self,id):
-        data =request.get_json()
+    def post(self, id):
+        data = request.get_json()
         if _validate_id(data["id"], EmployeesModel()):
             data = EmployeeManager.get_employee_info(data["id"])
-            EmployeeManager.issue_transaction(data[0],data[1],data[2],data[3])
+            EmployeeManager.issue_transaction(data[0], data[1], data[2], data[3])
             return 204
         return 404
 
@@ -159,4 +158,3 @@ class SalaryUpdateResource(Resource):
             employee = EmployeeManager.salary_update(data)
             return 204
         return 404
-

@@ -2,9 +2,10 @@ from sqlalchemy import func
 
 from db import db
 
+
 class TransactionModel(db.Model):
 
-    __tablename__ = 'transactions'
+    __tablename__ = "transactions"
     id = db.Column(db.Integer, primary_key=True)
     quote_id = db.Column(db.String(255), nullable=False)
     recipient_id = db.Column(db.String(255), nullable=False)

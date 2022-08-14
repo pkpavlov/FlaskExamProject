@@ -4,8 +4,13 @@ from resources.auth import (
     TasksResource,
     ItemsResource,
     LoginEmployeeResource,
-    LoginStoreUserResource, TaskStatusEditResource, TaskDeleteResource, DeleteItemsResource, BuyStoreItemResource,
-    SalaryPaymentResource, SalaryUpdateResource,
+    LoginStoreUserResource,
+    TaskStatusEditResource,
+    TaskDeleteResource,
+    DeleteItemsResource,
+    BuyStoreItemResource,
+    SalaryPaymentResource,
+    SalaryUpdateResource,
 )
 
 routes = (
@@ -21,5 +26,4 @@ routes = (
     (BuyStoreItemResource, "/items/buy/"),
     (SalaryPaymentResource, "/salary/<int:id>/payment/"),
     (SalaryUpdateResource, "/salary/<int:id>/update/"),
-
 )
