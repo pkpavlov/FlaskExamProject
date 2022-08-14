@@ -15,7 +15,7 @@ from schemas.requests.auth import (
 from schemas.responses.task import TaskSchemaResponse
 from utils.decorators import validate_schema, permission_required
 from managers.auth import auth
-from models import UserRole, TaskModel, StoreModel
+from models import UserRole, TaskModel, StoreModel, EmployeesModel
 
 
 def _validate_id(id, model):
@@ -137,4 +137,26 @@ class BuyStoreItemResource(Resource):
         data = request.get_json()
         item = StoreManager.buy(data["id"], data["quantity"])
         return item
+
+class SalaryPaymentResource(Resource):
+    @auth.login_required
+    @permission_required(UserRole.accountant)
+    def post(self,id):
+        data =request.get_json()
+        if _validate_id(data["id"], EmployeesModel()):
+            data = EmployeeManager.get_employee_info(data["id"])
+            EmployeeManager.issue_transaction(data[0],data[1],data[2],data[3])
+            return 204
+        return 404
+
+
+class SalaryUpdateResource(Resource):
+    @auth.login_required
+    @permission_required(UserRole.accountant)
+    def put(self, id):
+        data = request.get_json()
+        if _validate_id(data["id"], EmployeesModel()):
+            employee = EmployeeManager.salary_update(data)
+            return 204
+        return 404
 
