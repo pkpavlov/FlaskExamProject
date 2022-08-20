@@ -76,8 +76,8 @@ class WiseService:
 
 if __name__ == "__main__":
     wise = WiseService()
-    quote_id = wise.create_quotes("EUR", "EUR", 55)
-    recipient_id = wise.create_recipient("sdfsdf Pavlov", "DE89370400440532013000")
+    quote_id = wise.create_quotes("EUR", "EUR", 35)
+    recipient_id = wise.create_recipient("pasdf Pavlov", "DE89370400440532013000")
     customer_transaction_id = str(uuid.uuid4())
     transfer_id = wise.create_transfer(recipient_id, quote_id, customer_transaction_id)
-    print(wise.fund_transfer(51094581))
+    print(wise.fund_transfer(transfer_id))

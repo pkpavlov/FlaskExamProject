@@ -16,6 +16,7 @@ class EmployeeManager:
     @staticmethod
     def get_employee_info(employee_id):
         employee = EmployeesModel.query.filter_by(id=employee_id).first()
+
         employee_id = employee.id
         salary = employee.salary
         iban = employee.iban
@@ -56,6 +57,7 @@ class EmployeeManager:
             "amount": amount,
             "employee_id": employee_id,
         }
+        wise.fund_transfer(transfer_id)
         transaction = TransactionModel(**data)
         db.session.add(transaction)
         db.session.commit()
@@ -66,3 +68,5 @@ class EmployeeManager:
             {"salary": employee_data["salary"]}
         )
         db.session.commit()
+        name = EmployeesModel.query.filter_by(id=employee_data["id"]).all()[0]
+        return name

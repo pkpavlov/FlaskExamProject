@@ -152,8 +152,8 @@ class SalaryPaymentResource(Resource):
         if _validate_id(data["id"], EmployeesModel()):
             data = EmployeeManager.get_employee_info(data["id"])
             EmployeeManager.issue_transaction(data[0], data[1], data[2], data[3])
-            return 200
-        return 404
+            return f"U paid {data[0]} to {data[1]}"
+        return "Not a valid user for salary update"
 
 
 class SalaryUpdateResource(Resource):
@@ -163,5 +163,5 @@ class SalaryUpdateResource(Resource):
         data = request.get_json()
         if _validate_id(data["id"], EmployeesModel()):
             employee = EmployeeManager.salary_update(data)
-            return 200
-        return 404
+            return f" {employee.first_name} {employee.last_name} salary change to {data['salary']} "
+        return "Not a valid user for salary update"
