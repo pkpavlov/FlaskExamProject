@@ -99,12 +99,12 @@ class ItemsFactory(BaseFactory):
         model = StoreModel
 
     id = factory.Sequence(lambda x: x)
-    item_name = factory.Faker("name")
-    serial_number = factory.Faker("name")
-    quantity = str(randint(1, 1000))
-    delivery_price = str(randint(1, 1000))
-    sell_price = str(randint(1, 1000))
-    dealer_price = str(randint(1, 1000))
+    item_name = "knife"
+    serial_number = "GE044005"
+    quantity = 10
+    delivery_price = 5.2
+    sell_price = 5.2
+    dealer_price = 5.2
 
 class TasksFactory(BaseFactory):
     class Meta:

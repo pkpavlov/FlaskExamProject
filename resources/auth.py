@@ -16,7 +16,7 @@ from schemas.requests.auth import (
     DeleteTaskSchemaRequest,
     BuyItemsSchemaRequest,
 )
-from schemas.responses.task import TaskSchemaResponse
+from schemas.responses.task import TaskSchemaResponse, ItemsSchemaResponse
 from utils.decorators import validate_schema, permission_required
 from managers.auth import auth
 from models import UserRole, TaskModel, StoreModel, EmployeesModel
@@ -50,6 +50,7 @@ class RegisterStoreUserResource(Resource):
 
 
 class TasksResource(Resource):
+
     @auth.login_required
     def get(self):
         user = auth.current_user()
@@ -97,6 +98,12 @@ class ItemsResource(Resource):
         data = request.get_json()
         item = StoreManager.register(data)
         return f"added item {item.item_name} with quantity {item.quantity}"
+
+    @auth.login_required
+    def get(self):
+
+        items = StoreManager.get_items()
+        return ItemsSchemaResponse().dump(items, many=True)
 
 
 class DeleteItemsResource(Resource):

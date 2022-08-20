@@ -1,4 +1,4 @@
-from models import StoreModel
+from models import StoreModel, UserRole
 
 from db import db
 
@@ -54,3 +54,9 @@ class StoreManager:
             return f"u bought {quantity} {item.item_name}"
         else:
             return "Not enouth quantity"
+
+    @staticmethod
+    def get_items():
+
+        return StoreModel.query.all()
+
