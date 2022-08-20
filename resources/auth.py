@@ -145,7 +145,7 @@ class SalaryPaymentResource(Resource):
         if _validate_id(data["id"], EmployeesModel()):
             data = EmployeeManager.get_employee_info(data["id"])
             EmployeeManager.issue_transaction(data[0], data[1], data[2], data[3])
-            return 204
+            return 200
         return 404
 
 
@@ -156,5 +156,5 @@ class SalaryUpdateResource(Resource):
         data = request.get_json()
         if _validate_id(data["id"], EmployeesModel()):
             employee = EmployeeManager.salary_update(data)
-            return 204
+            return 200
         return 404
