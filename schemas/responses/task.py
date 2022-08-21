@@ -16,6 +16,7 @@ class TaskSchemaResponse(Schema):
     employee_comments = fields.String(required=True)
     state = EnumField(TaskState, by_value=True)
 
+
 class ItemsSchemaResponse(Schema):
     id = fields.Int(required=True)
     item_name = fields.String(required=True)

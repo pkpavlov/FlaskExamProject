@@ -4,7 +4,14 @@ import factory
 from sqlalchemy import func
 
 from db import db
-from models import EmployeesModel, UserRole, StoreUsersModel, StoreModel, TaskModel, TaskState
+from models import (
+    EmployeesModel,
+    UserRole,
+    StoreUsersModel,
+    StoreModel,
+    TaskModel,
+    TaskState,
+)
 
 
 class BaseFactory(factory.Factory):
@@ -32,6 +39,7 @@ class EmployeeFactory(BaseFactory):
     vacation = str(randint(1, 20))
     create_on = func.now()
 
+
 class AdminFactory(BaseFactory):
     class Meta:
         model = EmployeesModel
@@ -47,6 +55,7 @@ class AdminFactory(BaseFactory):
     salary = str(850)
     vacation = str(randint(1, 20))
     create_on = func.now()
+
 
 class AccountantFactory(BaseFactory):
     class Meta:
@@ -64,6 +73,7 @@ class AccountantFactory(BaseFactory):
     vacation = str(randint(1, 20))
     create_on = func.now()
 
+
 class WarehousemanFactory(BaseFactory):
     class Meta:
         model = EmployeesModel
@@ -80,6 +90,7 @@ class WarehousemanFactory(BaseFactory):
     vacation = str(randint(1, 20))
     create_on = func.now()
 
+
 class StoreUsersFactory(BaseFactory):
     class Meta:
         model = StoreUsersModel
@@ -94,6 +105,7 @@ class StoreUsersFactory(BaseFactory):
     nickname = factory.Faker("nickname")
     address = factory.Faker("address")
 
+
 class ItemsFactory(BaseFactory):
     class Meta:
         model = StoreModel
@@ -105,6 +117,7 @@ class ItemsFactory(BaseFactory):
     delivery_price = 5.2
     sell_price = 5.2
     dealer_price = 5.2
+
 
 class TasksFactory(BaseFactory):
     class Meta:

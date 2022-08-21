@@ -1,4 +1,3 @@
-
 from unittest.mock import patch
 
 from flask_testing import TestCase
@@ -13,7 +12,8 @@ from tests.factories import (
     ItemsFactory,
     AdminFactory,
     AccountantFactory,
-    WarehousemanFactory, StoreUsersFactory,
+    WarehousemanFactory,
+    StoreUsersFactory,
 )
 from tests.helpers import generate_token
 
@@ -210,17 +210,19 @@ class TestApp(TestCase):
         expectet_resp = "added item knife with quantity 10"
         resp = self.client.post(url, headers=headers, json=data)
         get_response = self.client.get(url, headers=headers)
-        expectet_resp_get = [{
-            "dealer_price": 6,
-            "delivery_price": 5,
-            "id": 1,
-            "item_name": "knife",
-            "quantity": 10,
-            "sell_price": 9,
-            "serial_number": "GE044005",
-        }]
+        expectet_resp_get = [
+            {
+                "dealer_price": 6,
+                "delivery_price": 5,
+                "id": 1,
+                "item_name": "knife",
+                "quantity": 10,
+                "sell_price": 9,
+                "serial_number": "GE044005",
+            }
+        ]
         self.assertEqual(resp.json, expectet_resp)
-        self.assertEqual(get_response.json,expectet_resp_get)
+        self.assertEqual(get_response.json, expectet_resp_get)
 
         data = {
             "item_name": "knife",
@@ -231,21 +233,22 @@ class TestApp(TestCase):
         expectet_resp = "added item knife with quantity 10"
         resp = self.client.post(url, headers=headers, json=data)
         get_response = self.client.get(url, headers=headers)
-        expectet_resp_get = [{
-            "dealer_price": 6,
-            "delivery_price": 5,
-            "id": 1,
-            "item_name": "knife",
-            "quantity": 20,
-            "sell_price": 9,
-            "serial_number": "GE044005",
-        }]
+        expectet_resp_get = [
+            {
+                "dealer_price": 6,
+                "delivery_price": 5,
+                "id": 1,
+                "item_name": "knife",
+                "quantity": 20,
+                "sell_price": 9,
+                "serial_number": "GE044005",
+            }
+        ]
         self.assertEqual(resp.json, expectet_resp)
         self.assertEqual(get_response.json, expectet_resp_get)
 
     def test_buy_item_with_enough_quantity(self):
         url = "/items/buy/"
-
 
         store = ItemsFactory()
 
@@ -255,10 +258,8 @@ class TestApp(TestCase):
         expectet_resp = "u bought 10 knife"
         self.assertEqual(resp.json, expectet_resp)
 
-
     def test_buy_item_with_not_enough_quantity(self):
         url = "/items/buy/"
-
 
         store = ItemsFactory()
 

@@ -59,4 +59,3 @@ class StoreManager:
     def get_items():
 
         return StoreModel.query.all()
-
