@@ -109,7 +109,7 @@ $ pip install -r requirements.txt
 
 Users endpoint:
 
-1. POST http://127.0.0.1:5000/register-employees/    -Authorization: needed, Content-Type: application/json
+1. Register Employees: POST http://127.0.0.1:5000/register-employees/    -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 {"first_name": "test", "last_name": "test", "password": "pass", "email": "test@test.bg","phone": "12345632178973","iban": "IE64IRCE92050112345673", "role": "employee"}
@@ -119,7 +119,7 @@ RESPONSE:
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0LCJleHAiOjE2NjExNzEwMjJ9.XAg9bM909Y1pf1dpI9kawhHrg_yhGSA3uP8SeTIM9X4"
 }
 
-2. POST http://127.0.0.1:5000/register/    -Content-Type: application/json
+2. Register normal user: POST http://127.0.0.1:5000/register/    -Content-Type: application/json
 
 REQUEST:
 
@@ -131,7 +131,7 @@ RESPONSE:
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjgsImV4cCI6MTY2MTE3MTIwM30.XrSa4xfPhW9zLcBIVMeLJwVirkkjl7C6GSn_CKtA5sQ"
 }
 
-3. POST http://127.0.0.1:5000/loginEmployee/  -Content-Type: application/json
+3. Login for Employee: POST http://127.0.0.1:5000/loginEmployee/  -Content-Type: application/json
 
 REQUEST:
 
@@ -142,7 +142,7 @@ RESPONSE:
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjgsImV4cCI6MTY2MTE3MTIwM30.XrSa4xfPhW9zLcBIVMeLJwVirkkjl7C6GSn_CKtA5sQ"
 }
 
-4. POST http://127.0.0.1:5000/login/  -Content-Type: application/json
+4. Login for user: POST http://127.0.0.1:5000/login/  -Content-Type: application/json
 
 REQUEST:
 
@@ -153,7 +153,7 @@ RESPONSE:
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjgsImV4cCI6MTY2MTE3MTIwM30.XrSa4xfPhW9zLcBIVMeLJwVirkkjl7C6GSn_CKtA5sQ"
 }
 
-5. POST http://127.0.0.1:5000/tasks/   -Authorization: needed, Content-Type: application/json
+5. Create task: POST http://127.0.0.1:5000/tasks/   -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -163,7 +163,7 @@ RESPONSE:
 
 "Task sometask number 72 assigned to employee employee"
 
-6. POST http://127.0.0.1:5000/items/   -Authorization: needed, Content-Type: application/json
+6. Create items in store: POST http://127.0.0.1:5000/items/   -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -173,7 +173,7 @@ RESPONSE:
 
 "added item fork with quantity 10"
 
-7. GET http://127.0.0.1:5000/items/ -Authorization: needed, Content-Type: application/json
+7. Get items in store: GET http://127.0.0.1:5000/items/ -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -202,7 +202,7 @@ RESPONSE:
     }
 ]
 
-8. DELETE http://127.0.0.1:5000/item/44 -Authorization: needed, Content-Type: application/json
+8. Delete items from store: DELETE http://127.0.0.1:5000/item/44 -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -212,7 +212,7 @@ RESPONSE:
 
 HTTP status code 204 OK, 404 Not Found
 
-9. GET http://127.0.0.1:5000/tasks/ -Authorization: needed, Content-Type: application/json
+9. Get task, depends of logged employee: GET http://127.0.0.1:5000/tasks/ -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -252,7 +252,7 @@ RESPONSE:
 ]
 
 
-10. PUT http://127.0.0.1:5000/task/72  -Authorization: needed, Content-Type: application/json
+10. Updtate task: PUT http://127.0.0.1:5000/task/72  -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -262,7 +262,7 @@ RESPONSE:
 
 HTTP status code 204 OK, 404 Not Found
 
-11. DELETE http://127.0.0.1:5000/task/73 -Authorization: needed, Content-Type: application/json
+11. Delete task: DELETE http://127.0.0.1:5000/task/73 -Authorization: needed, Content-Type: application/json
 
 REQUEST:
 
@@ -272,7 +272,7 @@ RESPONSE:
 
 HTTP status code 204 OK, 404 Not Found
 
-12. POST http://127.0.0.1:5000/items/buy/ -Content-Type: application/json
+12. Buying items from store: POST http://127.0.0.1:5000/items/buy/ -Content-Type: application/json
 
 REQUEST:
 
@@ -282,7 +282,7 @@ RESPONSE:
 
 "u bought 10 knife"
 
-13. POST http://127.0.0.1:5000/salary/5/payment/ -Authorization: needed, Content-Type: application/json
+13. Employee payment salary:  POST http://127.0.0.1:5000/salary/5/payment/ -Authorization: needed, Content-Type: application/json
 REQUEST:
 
 {"id":20} #Enter employee ID
@@ -291,7 +291,7 @@ RESPONSE:
 
 "U paid 354.0 to admin admin"
 
-14. POST http://127.0.0.1:5000/salary/5/payment/ -Authorization: needed, Content-Type: application/json
+14. Update employee salary PUT http://127.0.0.1:5000/salary/5/update/ -Authorization: needed, Content-Type: application/json
 REQUEST:
 
 {"id": 20, "salary": 354}   #Enter employee ID
