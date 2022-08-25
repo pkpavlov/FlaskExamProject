@@ -19,7 +19,7 @@ Install with pip:
 $ pip install -r requirements.txt
 
 -----Flask Application Structure-----
-
+```bash
 
 │   .env 
 │   .gitignore 
@@ -104,7 +104,7 @@ $ pip install -r requirements.txt
 │   │   __init__.py
 │   │   
 
-
+```
 -----Usage-----
 
 Users endpoint:
