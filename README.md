@@ -26,7 +26,7 @@ $ pip install -r requirements.txt
 │   config.py 
 │   db.py>
 │   main.py
-│   
+│   requirements.txt
 │       
 ├───managers
 │   │   auth.py
